@@ -1,0 +1,16 @@
+name: MalevolentMobs
+authors: [Hepolite]
+main: com.hepolite.mmob.MMobPlugin
+version: 0.4.3
+softdepend: [SkillAPI, Pangaea, BarAPI]
+description: >
+             Allows strong, malevolent mobs to tear players to pieces
+commands:
+    mMob:
+        description: Core command for Malevolent Mobs. Use /mMob help for info
+        usage: /mMob <command> <arguments>
+        permission: malevolentmob.mmob
+        permission-message: Sorry, you don't have permission to use this command
+permissions:
+    malevolentmob.mmob:
+        description: Gives access to the Malevolent Mobs commands

@@ -73,6 +73,7 @@ public class MobHandler
 	}
 
 	/** Updates the boss health bar for the given player */
+	@SuppressWarnings("deprecation")
 	private static void updatePlayerBossBar(Player player)
 	{
 		// Dead player must have the boss bar removed to prevent issues

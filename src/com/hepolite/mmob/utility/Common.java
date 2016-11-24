@@ -48,6 +48,7 @@ import com.sucy.skill.api.enums.ExpSource;
 import com.sucy.skill.api.player.PlayerClass;
 import com.sucy.skill.api.player.PlayerData;
 
+@SuppressWarnings("deprecation")
 public class Common
 {
 	// ///////////////////////////////////////////////////////////////////////////////////////
@@ -184,7 +185,6 @@ public class Common
 	}
 
 	/** Applies some damage. Returns true if the damage was NOT cancelled */
-	@SuppressWarnings("deprecation")
 	public static boolean doDamage(double damage, LivingEntity target, LivingEntity attacker, DamageCause cause)
 	{
 		if (target == null || target.getHealth() <= 0.0)

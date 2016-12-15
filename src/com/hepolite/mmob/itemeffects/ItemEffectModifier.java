@@ -32,6 +32,7 @@ public class ItemEffectModifier extends ItemEffect
 		return item.getType() == Material.WRITTEN_BOOK;
 	}
 
+	@Override
 	public void onRightClick(PlayerInteractEvent event, Player player, ItemStack item)
 	{
 		player.sendMessage(ChatColor.AQUA + "Hmm... Maybe not yet...");

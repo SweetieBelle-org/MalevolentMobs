@@ -1,7 +1,7 @@
 name: MalevolentMobs
 authors: [Hepolite]
 main: com.hepolite.mmob.MMobPlugin
-version: 0.4.6
+version: 0.4.7
 softdepend: [SkillAPI, Pangaea, BarAPI]
 description: >
              Allows strong, malevolent mobs to tear players to pieces

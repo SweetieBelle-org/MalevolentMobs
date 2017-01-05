@@ -1,0 +1,58 @@
+class:
+  ItemStack: ItemStack
+  NBTBase: NBTBase
+  NBTTagCompound: NBTTagCompound
+  NBTTagList: NBTTagList
+  NBTTagString: NBTTagString
+  NBTTagInt: NBTTagInt
+  NBTTagLong: NBTTagLong
+  NBTTagShort: NBTTagShort
+  NBTTagByte: NBTTagByte
+  NBTTagFloat: NBTTagFloat
+  NBTTagDouble: NBTTagDouble
+
+method:
+  ItemStack:
+    setTag: setTag
+    getTag: getTag
+    hasTag: hasTag
+  NBTTagCompound:
+    setString: setString
+    getString: getString
+    setInt: setInt
+    getInt: getInt
+    setLong: setLong
+    getLong: getLong
+    setByte: setByte
+    getByte: getByte
+    setShort: setShort
+    getShort: getShort
+    setFloat: setFloat
+    getFloat: getFloat
+    setDouble: setDouble
+    getDouble: getDouble
+    setTag: set
+    getTag: get
+    getCompound: getCompound
+    remove: remove
+    hasKey: hasKey
+    getKeys: c
+  NBTTagList:
+    add: add
+    remove: remove
+    get: h
+    size: size
+  NBTTagString:
+    get: c_
+  NBTTagInt:
+    get: e
+  NBTTagLong:
+    get: d
+  NBTTagShort:
+    get: f
+  NBTTagByte:
+    get: g
+  NBTTagFloat:
+    get: i
+  NBTTagDouble:
+    get: asDouble

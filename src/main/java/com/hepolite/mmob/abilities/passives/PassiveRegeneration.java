@@ -10,34 +10,30 @@ import com.hepolite.mmob.settings.Settings;
 /**
  * The regeneration effect allows mobs to regenerate health over time, even during combat
  */
-public class PassiveRegeneration extends PassiveTick
-{
-	float regeneration = 0.0f;
+public class PassiveRegeneration extends PassiveTick {
+    float regeneration = 0.0f;
 
-	public PassiveRegeneration(MalevolentMob mob, float scale)
-	{
-		super(mob, "Regeneration", Priority.NORMAL, scale);
-	}
+    public PassiveRegeneration(final MalevolentMob mob, final float scale) {
+        super(mob, "Regeneration", Priority.NORMAL, scale);
+    }
 
-	@Override
-	public void loadFromConfig(Settings settings, Settings alternative)
-	{
-		super.loadFromConfig(settings, alternative);
+    @Override
+    public void loadFromConfig(final Settings settings, final Settings alternative) {
+        super.loadFromConfig(settings, alternative);
 
-		regeneration = settings.getScaledValue(alternative, "Regeneration", scale, 0.0f);
-	}
+        regeneration = settings.getScaledValue(alternative, "Regeneration", scale, 0.0f);
+    }
 
-	@Override
-	protected void applyTickEffect()
-	{
-		LivingEntity entity = mob.getEntity();
-		entity.setHealth(Math.min(regeneration + entity.getHealth(), entity.getMaxHealth()));
-	}
+    @SuppressWarnings("deprecation")
+    @Override
+    protected void applyTickEffect() {
+        final LivingEntity entity = mob.getEntity();
+        entity.setHealth(Math.min(regeneration + entity.getHealth(), entity.getMaxHealth()));
+    }
 
-	@Override
-	public void onAttacked(EntityDamageEvent event)
-	{
-		resetStartupTimer();
-		resetDelayTimer();
-	}
+    @Override
+    public void onAttacked(final EntityDamageEvent event) {
+        resetStartupTimer();
+        resetDelayTimer();
+    }
 }

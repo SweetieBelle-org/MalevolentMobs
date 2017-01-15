@@ -7,54 +7,46 @@ import org.bukkit.command.CommandSender;
 
 import com.hepolite.mmob.handlers.DungeonHandler;
 
-public class InstructionDungeonSelect extends Instruction
-{
-	public InstructionDungeonSelect()
-	{
-		super("Select", new int[] { 0, 1 });
-		registerSubInstruction(new InstructionDungeonSelectSpawner());
-	}
+public class InstructionDungeonSelect extends Instruction {
+    public InstructionDungeonSelect() {
+        super("Select", new int[] { 0, 1 });
+        registerSubInstruction(new InstructionDungeonSelectSpawner());
+    }
 
-	@Override
-	protected void addSyntax(List<String> syntaxes)
-	{
-		syntaxes.add("<name>");
-	}
+    @Override
+    protected void addSyntax(final List<String> syntaxes) {
+        syntaxes.add("<name>");
+    }
 
-	@Override
-	protected void addDescription(List<String> descriptions)
-	{
-		descriptions.add("Selects the given dungeon");
-	}
+    @Override
+    protected void addDescription(final List<String> descriptions) {
+        descriptions.add("Selects the given dungeon");
+    }
 
-	@Override
-	protected String getExplanation()
-	{
-		return "This allows you to select a dungeon, where all subsequent dungeon instructions will target the selected dungeon.";
-	}
+    @Override
+    protected String getExplanation() {
+        return "This allows you to select a dungeon, where all subsequent dungeon instructions will target the selected dungeon.";
+    }
 
-	@Override
-	protected boolean onInvoke(CommandSender sender, List<String> arguments)
-	{
-		// Deselect dungeon, if relevant
-		if (arguments.size() == 0)
-		{
-			InstructionDungeon.setSelectedDungeon(sender, null);
-			return true;
-		}
+    @Override
+    protected boolean onInvoke(final CommandSender sender, final List<String> arguments) {
+        // Deselect dungeon, if relevant
+        if (arguments.size() == 0) {
+            InstructionDungeon.setSelectedDungeon(sender, null);
+            return true;
+        }
 
-		String name = arguments.get(0);
+        final String name = arguments.get(0);
 
-		// Make sure the dungeon exists
-		if (DungeonHandler.getDungeon(name) == null)
-		{
-			sender.sendMessage(ChatColor.RED + "The dungeon '" + name + "' doesn't exist!");
-			return true;
-		}
+        // Make sure the dungeon exists
+        if (DungeonHandler.getDungeon(name) == null) {
+            sender.sendMessage(ChatColor.RED + "The dungeon '" + name + "' doesn't exist!");
+            return true;
+        }
 
-		// Create the new dungeon
-		InstructionDungeon.setSelectedDungeon(sender, name);
-		sender.sendMessage(ChatColor.WHITE + "Selected dungeon '" + name + "'");
-		return false;
-	}
+        // Create the new dungeon
+        InstructionDungeon.setSelectedDungeon(sender, name);
+        sender.sendMessage(ChatColor.WHITE + "Selected dungeon '" + name + "'");
+        return false;
+    }
 }

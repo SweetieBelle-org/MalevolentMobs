@@ -7,35 +7,29 @@ import org.bukkit.command.CommandSender;
 
 import com.hepolite.mmob.MMobPlugin;
 
-public class InstructionRestart extends Instruction
-{
-	public InstructionRestart()
-	{
-		super("Restart", 0);
-	}
+public class InstructionRestart extends Instruction {
+    public InstructionRestart() {
+        super("Restart", 0);
+    }
 
-	@Override
-	protected void addSyntax(List<String> syntaxes)
-	{
-	}
+    @Override
+    protected void addSyntax(final List<String> syntaxes) {
+    }
 
-	@Override
-	protected void addDescription(List<String> descriptions)
-	{
-	}
+    @Override
+    protected void addDescription(final List<String> descriptions) {
+    }
 
-	@Override
-	protected String getExplanation()
-	{
-		return "Does a complete restart of the entire plugin, removing all Malevolent Mobs, resetting all dungeons and reloading all configurations";
-	}
+    @Override
+    protected String getExplanation() {
+        return "Does a complete restart of the entire plugin, removing all Malevolent Mobs, resetting all dungeons and reloading all configurations";
+    }
 
-	@Override
-	protected boolean onInvoke(CommandSender sender, List<String> arguments)
-	{
-		sender.sendMessage(ChatColor.RED + "Restarting the plugin...");
-		MMobPlugin.getInstance().onRestart();
-		sender.sendMessage(ChatColor.WHITE + "Restarting complete!");
-		return false;
-	}
+    @Override
+    protected boolean onInvoke(final CommandSender sender, final List<String> arguments) {
+        sender.sendMessage(ChatColor.RED + "Restarting the plugin...");
+        MMobPlugin.getInstance().onRestart();
+        sender.sendMessage(ChatColor.WHITE + "Restarting complete!");
+        return false;
+    }
 }

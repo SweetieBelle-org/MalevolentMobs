@@ -36,91 +36,79 @@ import com.hepolite.mmob.handlers.ProjectileHandler;
 import com.hepolite.mmob.utility.BlockManager;
 import com.hepolite.mmob.utility.NBTAPI;
 
-public class MMobPlugin extends JavaPlugin
-{
-	// Control variables
-	private static MMobPlugin instance = null;
-	private static MMobSettings settings = null;
-	private static MMobListener listener = null;
+public class MMobPlugin extends JavaPlugin {
+    // Control variables
+    private static MMobPlugin instance = null;
+    private static MMobSettings settings = null;
+    private static MMobListener listener = null;
 
-	private static CommandHandler commandHandler = null;
+    private static CommandHandler commandHandler = null;
 
-	int onTickTask = -1;
+    int onTickTask = -1;
 
-	// ///////////////////////////////////////////////////////////////////////////////////////
-	// CORE FUNCTIONALITY // CORE FUNCTIONALITY // CORE FUNCTIONALITY // CORE FUNCTIONALITY //
-	// ///////////////////////////////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////////////////////////////////
+    // CORE FUNCTIONALITY // CORE FUNCTIONALITY // CORE FUNCTIONALITY // CORE FUNCTIONALITY //
+    // ///////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
-	public void onEnable()
-	{
-		Log.initialize(this);
-		NBTAPI.initialize();
-		MMobCompatibility.initialize();
+    @Override
+    public void onEnable() {
+        Log.initialize(this);
+        NBTAPI.initialize();
+        MMobCompatibility.initialize();
 
-		instance = this;
-		settings = new MMobSettings();
-		listener = new MMobListener();
-		commandHandler = new CommandHandler();
+        instance = this;
+        settings = new MMobSettings();
+        listener = new MMobListener();
+        commandHandler = new CommandHandler();
 
-		// Register listener
-		getServer().getPluginManager().registerEvents(listener, this);
+        // Register listener
+        getServer().getPluginManager().registerEvents(listener, this);
 
-		// Set up a task that runs once every tick
-		Runnable task = new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				listener.onTick();
-				MobHandler.onTick();
-				DungeonHandler.onTick();
-				BlockManager.onTick();
-			}
-		};
-		onTickTask = getServer().getScheduler().scheduleSyncRepeatingTask(this, task, 0, 1);
-	}
+        // Set up a task that runs once every tick
+        final Runnable task = () -> {
+            listener.onTick();
+            MobHandler.onTick();
+            DungeonHandler.onTick();
+            BlockManager.onTick();
+        };
+        onTickTask = getServer().getScheduler().scheduleSyncRepeatingTask(this, task, 0, 1);
+    }
 
-	@Override
-	public void onDisable()
-	{
-		settings.save();
+    @Override
+    public void onDisable() {
+        settings.save();
 
-		getServer().getScheduler().cancelTasks(this);
+        getServer().getScheduler().cancelTasks(this);
 
-		settings = null;
-		listener = null;
-		commandHandler = null;
-	}
+        settings = null;
+        listener = null;
+        commandHandler = null;
+    }
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
-	{
-		return commandHandler.onCommand(sender, cmd, label, args);
-	}
+    @Override
+    public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
+        return commandHandler.onCommand(sender, cmd, label, args);
+    }
 
-	/** Restarts the plugin, reloading all important systems */
-	public final void onRestart()
-	{
-		settings.save();
-		settings.reload();
-		MobHandler.onRestart();
-		ProjectileHandler.onRestart();
-	}
+    /** Restarts the plugin, reloading all important systems */
+    public final void onRestart() {
+        settings.save();
+        settings.reload();
+        MobHandler.onRestart();
+        ProjectileHandler.onRestart();
+    }
 
-	// ///////////////////////////////////////////////////////////////////////
-	// GETTING/SETTING DATA // GETTING/SETTING DATA // GETTING/SETTING DATA //
-	// ///////////////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////////////////
+    // GETTING/SETTING DATA // GETTING/SETTING DATA // GETTING/SETTING DATA //
+    // ///////////////////////////////////////////////////////////////////////
 
-	/** Returns the instance of the plugin */
-	public static MMobPlugin getInstance()
-	{
-		return instance;
-	}
+    /** Returns the instance of the plugin */
+    public static MMobPlugin getInstance() {
+        return instance;
+    }
 
-	/** Returns the configuration file of the plugin */
-	public static MMobSettings getSettings()
-	{
-		return settings;
-	}
+    /** Returns the configuration file of the plugin */
+    public static MMobSettings getSettings() {
+        return settings;
+    }
 }

@@ -10,46 +10,41 @@ import org.bukkit.entity.LivingEntity;
 import com.hepolite.mmob.utility.Common;
 import com.hepolite.mmob.utility.FireworksEffect;
 
-public class ProjectileBoltFracturingBlast extends ProjectileBolt
-{
-	private float range = 0.0f;
-	private boolean affectPlayersOnly = true;
+public class ProjectileBoltFracturingBlast extends ProjectileBolt {
+    private float range = 0.0f;
+    private boolean affectPlayersOnly = true;
 
-	private float strength = 0.0f;
+    private float strength = 0.0f;
 
-	private int displayTimer = 0;
-	private FireworkEffect effect = null;
+    private int displayTimer = 0;
+    private FireworkEffect effect = null;
 
-	public ProjectileBoltFracturingBlast(LivingEntity caster, LivingEntity target, float speed, float strength, float range, boolean affectPlayersOnly)
-	{
-		super(caster, target, speed, true, 0.0f);
+    public ProjectileBoltFracturingBlast(final LivingEntity caster, final LivingEntity target, final float speed, final float strength, final float range, final boolean affectPlayersOnly) {
+        super(caster, target, speed, true, 0.0f);
 
-		this.affectPlayersOnly = affectPlayersOnly;
-		this.range = range;
-		this.strength = strength;
+        this.affectPlayersOnly = affectPlayersOnly;
+        this.range = range;
+        this.strength = strength;
 
-		// Construct the blast effect
-		Builder builder = FireworksEffect.getFireworksEffectBuilder();
-		builder.with(Type.BALL);
-		builder.withColor(Color.PURPLE, Color.RED);
-		builder.withFade(Color.BLACK, Color.ORANGE);
-		builder.withTrail();
-		effect = builder.build();
-	}
+        // Construct the blast effect
+        final Builder builder = FireworksEffect.getFireworksEffectBuilder();
+        builder.with(Type.BALL);
+        builder.withColor(Color.PURPLE, Color.RED);
+        builder.withFade(Color.BLACK, Color.ORANGE);
+        builder.withTrail();
+        effect = builder.build();
+    }
 
-	@Override
-	protected void applyEffects(Location location)
-	{
-		Common.createExplosionWithEffect(position, strength, range, affectPlayersOnly, caster);
-	}
+    @Override
+    protected void applyEffects(final Location location) {
+        Common.createExplosionWithEffect(position, strength, range, affectPlayersOnly, caster);
+    }
 
-	@Override
-	protected void displayBolt(Location location)
-	{
-		if (++displayTimer >= 7)
-		{
-			displayTimer = 0;
-			FireworksEffect.createFireworks(position, effect);
-		}
-	}
+    @Override
+    protected void displayBolt(final Location location) {
+        if (++displayTimer >= 7) {
+            displayTimer = 0;
+            FireworksEffect.createFireworks(position, effect);
+        }
+    }
 }

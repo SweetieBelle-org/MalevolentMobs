@@ -13,63 +13,56 @@ import com.hepolite.mmob.settings.Settings;
 /**
  * The runic shield applies a protective shield that blocks almost all forms of damage completely, for as long as the shield has some charge left
  */
-public class ItemEffectRunicShield extends ItemEffectCharger
-{
-	private float durabilityCostPerDamage = 0.0f;
-	
-	private List<String> lore;
+public class ItemEffectRunicShield extends ItemEffectCharger {
+    private float durabilityCostPerDamage = 0.0f;
 
-	public ItemEffectRunicShield()
-	{
-		super("Runic_Shield");
-		incompatibleEffects = new String[] { getName() };
-	}
+    private List<String> lore;
 
-	@Override
-	public void loadSettingsFromConfigFile(Settings settings)
-	{
-		durabilityCostPerDamage = settings.getFloat("durabilityCostPerDamage");
-		
-		lore = settings.getStringList("lore");
-	}
+    public ItemEffectRunicShield() {
+        super("Runic_Shield");
+        incompatibleEffects = new String[] { getName() };
+    }
 
-	@Override
-	public void onAttacked(EntityDamageEvent event, Player player, ItemStack item)
-	{
-		// Skip certain damage sources
-		DamageCause cause = event.getCause();
-		if (cause == DamageCause.STARVATION || cause == DamageCause.SUFFOCATION || cause == DamageCause.DROWNING || cause == DamageCause.FALL || cause == DamageCause.WITHER || cause == DamageCause.POISON)
-			return;
+    @Override
+    public void loadSettingsFromConfigFile(final Settings settings) {
+        durabilityCostPerDamage = settings.getFloat("durabilityCostPerDamage");
 
-		// Apply protection against most forms of damage
-		double damageBlocked = Math.min(charge, event.getDamage());
-		event.setDamage(event.getDamage() - damageBlocked);
-		damageItem(item, durabilityCostPerDamage * damageBlocked);
+        lore = settings.getStringList("lore");
+    }
 
-		if (damageBlocked > 0.0)
-			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_HURT, 0.75f, 0.0f);
+    @Override
+    public void onAttacked(final EntityDamageEvent event, final Player player, final ItemStack item) {
+        // Skip certain damage sources
+        final DamageCause cause = event.getCause();
+        if (cause == DamageCause.STARVATION || cause == DamageCause.SUFFOCATION || cause == DamageCause.DROWNING || cause == DamageCause.FALL || cause == DamageCause.WITHER || cause == DamageCause.POISON)
+            return;
 
-		// Update the charge
-		setChargeInItem(item, charge - (float) damageBlocked);
-	}
+        // Apply protection against most forms of damage
+        final double damageBlocked = Math.min(charge, event.getDamage());
+        event.setDamage(event.getDamage() - damageBlocked);
+        damageItem(item, durabilityCostPerDamage * damageBlocked);
 
-	@Override
-	public boolean canBeUsedOnItem(ItemStack item)
-	{
-		return isItemArmor(item);
-	}
+        if (damageBlocked > 0.0)
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_HURT, 0.75f, 0.0f);
 
-	@Override
-	public void addDescription(List<String> list)
-	{
-		list.add(String.format("&fBlocks up to &b%.2f&f hearts of damage", 0.5f * maxCharge));
-		list.add(String.format("&fCharge left: &b%.1f / %.1f&f [%s]", charge, maxCharge, getName()));
-		super.addDescription(list);
-	}
-	
-	@Override
-	public String getLore()
-	{
-		return lore.size() == 0 ? null : lore.get(random.nextInt(lore.size()));
-	}
+        // Update the charge
+        setChargeInItem(item, charge - (float) damageBlocked);
+    }
+
+    @Override
+    public boolean canBeUsedOnItem(final ItemStack item) {
+        return isItemArmor(item);
+    }
+
+    @Override
+    public void addDescription(final List<String> list) {
+        list.add(String.format("&fBlocks up to &b%.2f&f hearts of damage", 0.5f * maxCharge));
+        list.add(String.format("&fCharge left: &b%.1f / %.1f&f [%s]", charge, maxCharge, getName()));
+        super.addDescription(list);
+    }
+
+    @Override
+    public String getLore() {
+        return lore.size() == 0 ? null : lore.get(random.nextInt(lore.size()));
+    }
 }

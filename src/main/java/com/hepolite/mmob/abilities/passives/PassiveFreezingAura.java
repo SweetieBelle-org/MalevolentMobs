@@ -16,48 +16,43 @@ import com.hepolite.mmob.utility.ParticleEffect.ParticleType;
 /**
  * The freezing aura causes the nearby targets to be slowed and take take small amounts of frost damage
  */
-public class PassiveFreezingAura extends PassiveAura
-{
-	private float damage = 0.0f;
-	private PotionEffect effect = null;
+public class PassiveFreezingAura extends PassiveAura {
+    private float damage = 0.0f;
+    private PotionEffect effect = null;
 
-	private int ticksToDamage = 0;
-	private int currentTick = 0;
+    private int ticksToDamage = 0;
+    private int currentTick = 0;
 
-	public PassiveFreezingAura(MalevolentMob mob, float scale)
-	{
-		super(mob, "Freezing Aura", scale);
-	}
+    public PassiveFreezingAura(final MalevolentMob mob, final float scale) {
+        super(mob, "Freezing Aura", scale);
+    }
 
-	@Override
-	public void loadFromConfig(Settings settings, Settings alternative)
-	{
-		super.loadFromConfig(settings, alternative);
+    @Override
+    public void loadFromConfig(final Settings settings, final Settings alternative) {
+        super.loadFromConfig(settings, alternative);
 
-		ticksToDamage = (int) settings.getScaledValue(alternative, "Delay", scale, 0.0f);
-		damage = settings.getScaledValue(alternative, "Damage", scale, 1.0f);
+        ticksToDamage = (int) settings.getScaledValue(alternative, "Delay", scale, 0.0f);
+        damage = settings.getScaledValue(alternative, "Damage", scale, 1.0f);
 
-		float strength = settings.getScaledValue(alternative, "Strength", scale, 1.0f);
-		effect = new PotionEffect(PotionEffectType.SLOW, 50, (int) strength - 1);
-	}
+        final float strength = settings.getScaledValue(alternative, "Strength", scale, 1.0f);
+        effect = new PotionEffect(PotionEffectType.SLOW, 50, (int) strength - 1);
+    }
 
-	@Override
-	protected void applyAuraEffect(LivingEntity entity)
-	{
-		entity.addPotionEffect(effect);
-		if (currentTick >= ticksToDamage)
-			Common.doDamage(damage, entity, mob.getEntity(), DamageCause.MAGIC);
-	}
+    @Override
+    protected void applyAuraEffect(final LivingEntity entity) {
+        entity.addPotionEffect(effect);
+        if (currentTick >= ticksToDamage)
+            Common.doDamage(damage, entity, mob.getEntity(), DamageCause.MAGIC);
+    }
 
-	@Override
-	protected void displayAura(Location location, float range)
-	{
-		ParticleEffect.play(ParticleType.SNOW_SHOVEL, location, 0.05f, (int) (20.0f * range), 0.5f * range);
-		
-		if (currentTick >= ticksToDamage)
-			currentTick = 0;
-		else
-			currentTick++;
-	}
+    @Override
+    protected void displayAura(final Location location, final float range) {
+        ParticleEffect.play(ParticleType.SNOW_SHOVEL, location, 0.05f, (int) (20.0f * range), 0.5f * range);
+
+        if (currentTick >= ticksToDamage)
+            currentTick = 0;
+        else
+            currentTick++;
+    }
 
 }

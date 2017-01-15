@@ -13,57 +13,51 @@ import com.hepolite.mmob.utility.Common;
 /**
  * Causes all entities within the area of effect to be affected by the effects of the active, after the delay has passed
  */
-public abstract class ActiveAreaSplash extends ActiveArea
-{
-	// Control variables
-	private float range = 0.0f;
-	private boolean affectPlayersOnly = true;
+public abstract class ActiveAreaSplash extends ActiveArea {
+    // Control variables
+    private float range = 0.0f;
+    private boolean affectPlayersOnly = true;
 
-	/** Initialization */
-	protected ActiveAreaSplash(MalevolentMob mob, String name, Priority priority, float scale)
-	{
-		super(mob, name, priority, scale);
-	}
+    /** Initialization */
+    protected ActiveAreaSplash(final MalevolentMob mob, final String name, final Priority priority, final float scale) {
+        super(mob, name, priority, scale);
+    }
 
-	/** Loads up some settings from the configuration file */
-	@Override
-	public void loadFromConfig(Settings settings, Settings alternative)
-	{
-		super.loadFromConfig(settings, alternative);
+    /** Loads up some settings from the configuration file */
+    @Override
+    public void loadFromConfig(final Settings settings, final Settings alternative) {
+        super.loadFromConfig(settings, alternative);
 
-		range = settings.getScaledValue(alternative, "Range", scale, 0.0f);
-		affectPlayersOnly = settings.getBoolean(alternative, "affectPlayersOnly");
-	}
+        range = settings.getScaledValue(alternative, "Range", scale, 0.0f);
+        affectPlayersOnly = settings.getBoolean(alternative, "affectPlayersOnly");
+    }
 
-	@Override
-	public void applyEffect(Location location)
-	{
-		// Find all entities nearby and hit them, don't hit the caster
-		List<LivingEntity> entities = Common.getEntitiesInRange(location, range);
-		for (LivingEntity entity : entities)
-		{
-			if (entity == mob.getEntity())
-				continue;
-			if (!affectPlayersOnly || entity instanceof Player)
-				applyEffect(entity);
-		}
-		displayAttack(location, range);
-	}
-	
-	@Override
-	protected void displayArea(Location location)
-	{
-		displayArea(location, range);
-	}
+    @Override
+    public void applyEffect(final Location location) {
+        // Find all entities nearby and hit them, don't hit the caster
+        final List<LivingEntity> entities = Common.getEntitiesInRange(location, range);
+        for (final LivingEntity entity : entities) {
+            if (entity == mob.getEntity())
+                continue;
+            if (!affectPlayersOnly || entity instanceof Player)
+                applyEffect(entity);
+        }
+        displayAttack(location, range);
+    }
 
-	// ////////////////////////////////////////////////////////////////////////////////////////
+    @Override
+    protected void displayArea(final Location location) {
+        displayArea(location, range);
+    }
 
-	/** Called to apply effects to a entity within the range of the splash */
-	public abstract void applyEffect(LivingEntity target);
-	
-	/** This method is used when the attack starts, used to display some effects where the attack will take place */
-	protected abstract void displayArea(Location location, float range);
+    // ////////////////////////////////////////////////////////////////////////////////////////
 
-	/** This method is used when the attack ends, used to display some effects */
-	protected abstract void displayAttack(Location location, float range);
+    /** Called to apply effects to a entity within the range of the splash */
+    public abstract void applyEffect(LivingEntity target);
+
+    /** This method is used when the attack starts, used to display some effects where the attack will take place */
+    protected abstract void displayArea(Location location, float range);
+
+    /** This method is used when the attack ends, used to display some effects */
+    protected abstract void displayAttack(Location location, float range);
 }

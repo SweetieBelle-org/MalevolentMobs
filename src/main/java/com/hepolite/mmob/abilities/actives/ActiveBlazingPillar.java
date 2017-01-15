@@ -19,58 +19,51 @@ import com.hepolite.mmob.utility.ParticleEffect.ParticleType;
 /**
  * The blazing pillar is a column of fire that deals fire damage to all entities caught in its grasp
  */
-public class ActiveBlazingPillar extends ActiveAreaSplash
-{
-	private float strength = 0.0f;
-	private int duration = 0;
+public class ActiveBlazingPillar extends ActiveAreaSplash {
+    private float strength = 0.0f;
+    private int duration = 0;
 
-	public ActiveBlazingPillar(MalevolentMob mob, float scale)
-	{
-		super(mob, "Blazing Pillar", Priority.NORMAL, scale);
-	}
+    public ActiveBlazingPillar(final MalevolentMob mob, final float scale) {
+        super(mob, "Blazing Pillar", Priority.NORMAL, scale);
+    }
 
-	@Override
-	public void loadFromConfig(Settings settings, Settings alternative)
-	{
-		super.loadFromConfig(settings, alternative);
+    @Override
+    public void loadFromConfig(final Settings settings, final Settings alternative) {
+        super.loadFromConfig(settings, alternative);
 
-		strength = settings.getScaledValue(alternative, "Strength", scale, 0.0f);
-		duration = (int) settings.getScaledValue(alternative, "Duration", scale, 0.0f);
-	}
+        strength = settings.getScaledValue(alternative, "Strength", scale, 0.0f);
+        duration = (int) settings.getScaledValue(alternative, "Duration", scale, 0.0f);
+    }
 
-	@Override
-	public boolean canCast(float healthFactor, float distanceToTarget, LivingEntity target)
-	{
-		return distanceToTarget <= 30.0;
-	}
+    @Override
+    public boolean canCast(final float healthFactor, final float distanceToTarget, final LivingEntity target) {
+        return distanceToTarget <= 30.0;
+    }
 
-	@Override
-	public void applyEffect(LivingEntity target)
-	{
-		Common.doDamage(strength, target, mob.getEntity(), DamageCause.FIRE);
-		target.setFireTicks(duration);
-	}
+    @Override
+    public void applyEffect(final LivingEntity target) {
+        Common.doDamage(strength, target, mob.getEntity(), DamageCause.FIRE);
+        target.setFireTicks(duration);
+    }
 
-	@Override
-	protected void displayArea(Location location, float range)
-	{
-		ParticleEffect.play(ParticleType.SMOKE_LARGE, location, 0.05f, (int) (30.0f * range), range);
-		location.getWorld().playSound(location, Sound.ENTITY_BLAZE_AMBIENT, 1.0f, 0.0f);
-	}
+    @Override
+    protected void displayArea(final Location location, final float range) {
+        ParticleEffect.play(ParticleType.SMOKE_LARGE, location, 0.05f, (int) (30.0f * range), range);
+        location.getWorld().playSound(location, Sound.ENTITY_BLAZE_AMBIENT, 1.0f, 0.0f);
+    }
 
-	@Override
-	protected void displayAttack(Location location, float range)
-	{
-		Builder builder = FireworksEffect.getFireworksEffectBuilder();
-		builder.with(Type.BURST);
-		builder.withColor(Color.RED);
-		builder.withColor(Color.ORANGE);
-		builder.withColor(Color.YELLOW);
-		builder.withFade(Color.OLIVE);
-		builder.withFade(Color.RED);
-		builder.withFade(Color.ORANGE);
-		builder.withTrail();
-		FireworksEffect.createFireworks(location, builder.build());
-	}
+    @Override
+    protected void displayAttack(final Location location, final float range) {
+        final Builder builder = FireworksEffect.getFireworksEffectBuilder();
+        builder.with(Type.BURST);
+        builder.withColor(Color.RED);
+        builder.withColor(Color.ORANGE);
+        builder.withColor(Color.YELLOW);
+        builder.withFade(Color.OLIVE);
+        builder.withFade(Color.RED);
+        builder.withFade(Color.ORANGE);
+        builder.withTrail();
+        FireworksEffect.createFireworks(location, builder.build());
+    }
 
 }

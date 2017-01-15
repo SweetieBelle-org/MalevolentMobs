@@ -43,103 +43,100 @@ import com.hepolite.mmob.mobs.MalevolentMob;
 import com.hepolite.mmob.settings.Settings;
 import com.hepolite.mmob.settings.SettingsAbilities;
 
-public class AbilityHandler
-{
-	/** Returns a new instance of a passive ability, based on name */
-	public static Passive getPassive(MalevolentMob mob, String name)
-	{
-		Settings settings = SettingsAbilities.getPassiveConfig(name);
-		if (!settings.getBoolean("enable"))
-			return null;
+public class AbilityHandler {
+    /** Returns a new instance of a passive ability, based on name */
+    public static Passive getPassive(final MalevolentMob mob, final String name) {
+        final Settings settings = SettingsAbilities.getPassiveConfig(name);
+        if (!settings.getBoolean("enable"))
+            return null;
 
-		Passive passive = null;
-		if (name.equals("Fire_Aura"))
-			passive = new PassiveFireAura(mob, mob.getLevel());
-		else if (name.equals("Wither_Aura"))
-			passive = new PassiveWitherAura(mob, mob.getLevel());
-		else if (name.equals("Poison_Mist"))
-			passive = new PassivePoisonMist(mob, mob.getLevel());
-		else if (name.equals("Exoskeleton"))
-			passive = new PassiveExoskeleton(mob, mob.getLevel());
-		else if (name.equals("Mother"))
-			passive = new PassiveMother(mob, mob.getLevel());
-		else if (name.equals("Guardian_Angel"))
-			passive = new PassiveGuardianAngel(mob, mob.getLevel());
-		else if (name.equals("Regeneration"))
-			passive = new PassiveRegeneration(mob, mob.getLevel());
-		else if (name.equals("Potion_Effect"))
-			passive = new PassivePotionEffect(mob, mob.getLevel());
-		else if (name.equals("Explosion"))
-			passive = new PassiveExplosion(mob, mob.getLevel());
-		else if (name.equals("Vampirism"))
-			passive = new PassiveVampirism(mob, mob.getLevel());
-		else if (name.equals("Deteriorating_Aura"))
-			passive = new PassiveDeterioratingAura(mob, mob.getLevel());
-		else if (name.equals("Wither_Particles"))
-			passive = new PassiveWitherParticles(mob, mob.getLevel());
-		else if (name.equals("Freezing_Aura"))
-			passive = new PassiveFreezingAura(mob, mob.getLevel());
-		else if (name.equals("Mount"))
-			passive = new PassiveMount(mob, mob.getLevel());
-		else if (name.equals("Healer"))
-			passive = new PassiveHealer(mob, mob.getLevel());
+        Passive passive = null;
+        if (name.equals("Fire_Aura"))
+            passive = new PassiveFireAura(mob, mob.getLevel());
+        else if (name.equals("Wither_Aura"))
+            passive = new PassiveWitherAura(mob, mob.getLevel());
+        else if (name.equals("Poison_Mist"))
+            passive = new PassivePoisonMist(mob, mob.getLevel());
+        else if (name.equals("Exoskeleton"))
+            passive = new PassiveExoskeleton(mob, mob.getLevel());
+        else if (name.equals("Mother"))
+            passive = new PassiveMother(mob, mob.getLevel());
+        else if (name.equals("Guardian_Angel"))
+            passive = new PassiveGuardianAngel(mob, mob.getLevel());
+        else if (name.equals("Regeneration"))
+            passive = new PassiveRegeneration(mob, mob.getLevel());
+        else if (name.equals("Potion_Effect"))
+            passive = new PassivePotionEffect(mob, mob.getLevel());
+        else if (name.equals("Explosion"))
+            passive = new PassiveExplosion(mob, mob.getLevel());
+        else if (name.equals("Vampirism"))
+            passive = new PassiveVampirism(mob, mob.getLevel());
+        else if (name.equals("Deteriorating_Aura"))
+            passive = new PassiveDeterioratingAura(mob, mob.getLevel());
+        else if (name.equals("Wither_Particles"))
+            passive = new PassiveWitherParticles(mob, mob.getLevel());
+        else if (name.equals("Freezing_Aura"))
+            passive = new PassiveFreezingAura(mob, mob.getLevel());
+        else if (name.equals("Mount"))
+            passive = new PassiveMount(mob, mob.getLevel());
+        else if (name.equals("Healer"))
+            passive = new PassiveHealer(mob, mob.getLevel());
 
-		return passive;
-	}
+        return passive;
+    }
 
-	/** Returns a new instance of an active ability, based on name */
-	public static Active getActive(MalevolentMob mob, String name)
-	{
-		Settings settings = SettingsAbilities.getActiveConfig(name);
-		if (!settings.getBoolean("enable"))
-			return null;
+    /** Returns a new instance of an active ability, based on name */
+    public static Active getActive(final MalevolentMob mob, final String name) {
+        final Settings settings = SettingsAbilities.getActiveConfig(name);
+        if (!settings.getBoolean("enable"))
+            return null;
 
-		Active active = null;
-		if (name.equals("Lifesteal"))
-			active = new ActiveLifesteal(mob, mob.getLevel());
-		else if (name.equals("Blazing_Pillar"))
-			active = new ActiveBlazingPillar(mob, mob.getLevel());
-		else if (name.equals("Fire_Burst"))
-			active = new ActiveFireBurst(mob, mob.getLevel());
-		else if (name.equals("Magic_Mirror"))
-			active = new ActiveMagicMirror(mob, mob.getLevel());
-		else if (name.equals("Magic_Blast"))
-			active = new ActiveMagicBlast(mob, mob.getLevel());
-		else if (name.equals("Virulent_Grasp"))
-			active = new ActiveVirulentGrasp(mob, mob.getLevel());
-		else if (name.equals("Ground_Slam"))
-			active = new ActiveGroundSlam(mob, mob.getLevel());
-		else if (name.equals("Fireball"))
-			active = new ActiveFireball(mob, mob.getLevel());
-		else if (name.equals("Leash_On"))
-			active = new ActiveLeashOn(mob, mob.getLevel());
-		else if (name.equals("Lightning_Strike"))
-			active = new ActiveLightningStrike(mob, mob.getLevel());
-		else if (name.equals("Withering_Bolt"))
-			active = new ActiveWitheringBolt(mob, mob.getLevel());
-		else if (name.equals("Weaken"))
-			active = new ActiveWeaken(mob, mob.getLevel());
-		else if (name.equals("Toxic_Spit"))
-			active = new ActiveToxicSpit(mob, mob.getLevel());
-		else if (name.equals("Summon_Minion"))
-			active = new ActiveSummonMinion(mob, mob.getLevel());
-		else if (name.equals("Fracturing_Blast"))
-			active = new ActiveFracturingBlast(mob, mob.getLevel());
-		else if (name.equals("Kidnap"))
-			active = new ActiveKidnap(mob, mob.getLevel());
-		else if (name.equals("Webbing"))
-			active = new ActiveWebbing(mob, mob.getLevel());
-		else if (name.equals("Decoy"))
-			active = new ActiveDecoy(mob, mob.getLevel());
-		else if (name.equals("Teleport"))
-			active = new ActiveTeleport(mob, mob.getLevel());
-		else if (name.equals("Volley"))
-			active = new ActiveVolley(mob, mob.getLevel());
-		else if (name.equals("Grenade"))
-			active = new ActiveGrenade(mob, mob.getLevel());
-		else if (name.equals("Blindfold"))
-			active = new ActiveBlindfold(mob, mob.getLevel());
+        Active active = null;
+        if (name.equals("Lifesteal"))
+            active = new ActiveLifesteal(mob, mob.getLevel());
+        else if (name.equals("Blazing_Pillar"))
+            active = new ActiveBlazingPillar(mob, mob.getLevel());
+        else if (name.equals("Fire_Burst"))
+            active = new ActiveFireBurst(mob, mob.getLevel());
+        else if (name.equals("Magic_Mirror"))
+            active = new ActiveMagicMirror(mob, mob.getLevel());
+        else if (name.equals("Magic_Blast"))
+            active = new ActiveMagicBlast(mob, mob.getLevel());
+        else if (name.equals("Virulent_Grasp"))
+            active = new ActiveVirulentGrasp(mob, mob.getLevel());
+        else if (name.equals("Ground_Slam"))
+            active = new ActiveGroundSlam(mob, mob.getLevel());
+        else if (name.equals("Fireball"))
+            active = new ActiveFireball(mob, mob.getLevel());
+        else if (name.equals("Leash_On"))
+            active = new ActiveLeashOn(mob, mob.getLevel());
+        else if (name.equals("Lightning_Strike"))
+            active = new ActiveLightningStrike(mob, mob.getLevel());
+        else if (name.equals("Withering_Bolt"))
+            active = new ActiveWitheringBolt(mob, mob.getLevel());
+        else if (name.equals("Weaken"))
+            active = new ActiveWeaken(mob, mob.getLevel());
+        else if (name.equals("Toxic_Spit"))
+            active = new ActiveToxicSpit(mob, mob.getLevel());
+        else if (name.equals("Summon_Minion"))
+            active = new ActiveSummonMinion(mob, mob.getLevel());
+        else if (name.equals("Fracturing_Blast"))
+            active = new ActiveFracturingBlast(mob, mob.getLevel());
+        else if (name.equals("Kidnap"))
+            active = new ActiveKidnap(mob, mob.getLevel());
+        else if (name.equals("Webbing"))
+            active = new ActiveWebbing(mob, mob.getLevel());
+        else if (name.equals("Decoy"))
+            active = new ActiveDecoy(mob, mob.getLevel());
+        else if (name.equals("Teleport"))
+            active = new ActiveTeleport(mob, mob.getLevel());
+        else if (name.equals("Volley"))
+            active = new ActiveVolley(mob, mob.getLevel());
+        else if (name.equals("Grenade"))
+            active = new ActiveGrenade(mob, mob.getLevel());
+        else if (name.equals("Blindfold"))
+            active = new ActiveBlindfold(mob, mob.getLevel());
 
-		return active;
-	}
+        return active;
+    }
 }

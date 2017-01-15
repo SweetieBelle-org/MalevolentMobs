@@ -16,73 +16,60 @@ import com.hepolite.mmob.utility.Common;
 /**
  * Effect that returns some incoming magic damage, as magic damage
  */
-public class ItemEffectMagicMirror extends ItemEffect
-{
-	protected float strength = 0.0f;
+public class ItemEffectMagicMirror extends ItemEffect {
+    protected float strength = 0.0f;
 
-	private float durabilityCostPerDamage = 0.0f;
-	
-	private List<String> lore;
+    private float durabilityCostPerDamage = 0.0f;
 
-	public ItemEffectMagicMirror()
-	{
-		super("Magic_Mirror");
-		incompatibleEffects = new String[] { getName() };
-	}
+    private List<String> lore;
 
-	@Override
-	public void loadSettingsFromConfigFile(Settings settings)
-	{
-		durabilityCostPerDamage = settings.getFloat("durabilityCostPerDamage");
-		
-		lore = settings.getStringList("lore");
-	}
+    public ItemEffectMagicMirror() {
+        super("Magic_Mirror");
+        incompatibleEffects = new String[] { getName() };
+    }
 
-	@Override
-	public void onAttacked(EntityDamageEvent event, Player player, ItemStack item)
-	{
-		if (Common.isAttackMagic(event))
-		{
-			Entity attacker = Common.getAttacker((EntityDamageByEntityEvent) event);
-			if (attacker != null && attacker instanceof LivingEntity)
-			{
-				double damage = strength * event.getDamage();
-				if (damage >= 1.0)
-				{
-					if (Common.doDamage(damage, (LivingEntity) attacker, player, DamageCause.CUSTOM))
-						damageItem(item, durabilityCostPerDamage * damage);
-				}
-			}
-		}
-	}
+    @Override
+    public void loadSettingsFromConfigFile(final Settings settings) {
+        durabilityCostPerDamage = settings.getFloat("durabilityCostPerDamage");
 
-	@Override
-	public boolean canBeUsedOnItem(ItemStack item)
-	{
-		return isItemArmor(item);
-	}
+        lore = settings.getStringList("lore");
+    }
 
-	@Override
-	public void addDescription(List<String> list)
-	{
-		list.add(String.format("&fMirrors &b%.0f%%&f of incoming magic-based damage to the attacker", 100.0f * strength));
-	}
-	
-	@Override
-	public String getLore()
-	{
-		return lore.size() == 0 ? null : lore.get(random.nextInt(lore.size()));
-	}
+    @Override
+    public void onAttacked(final EntityDamageEvent event, final Player player, final ItemStack item) {
+        if (Common.isAttackMagic(event)) {
+            final Entity attacker = Common.getAttacker((EntityDamageByEntityEvent) event);
+            if (attacker != null && attacker instanceof LivingEntity) {
+                final double damage = strength * event.getDamage();
+                if (damage >= 1.0)
+                    if (Common.doDamage(damage, (LivingEntity) attacker, player, DamageCause.CUSTOM))
+                        damageItem(item, durabilityCostPerDamage * damage);
+            }
+        }
+    }
 
-	@Override
-	public String saveToString()
-	{
-		return String.format("%.0f", 100.0f * strength);
-	}
+    @Override
+    public boolean canBeUsedOnItem(final ItemStack item) {
+        return isItemArmor(item);
+    }
 
-	@Override
-	public void loadFromString(String dataString)
-	{
-		strength = 0.01f * Float.parseFloat(dataString);
-	}
+    @Override
+    public void addDescription(final List<String> list) {
+        list.add(String.format("&fMirrors &b%.0f%%&f of incoming magic-based damage to the attacker", 100.0f * strength));
+    }
+
+    @Override
+    public String getLore() {
+        return lore.size() == 0 ? null : lore.get(random.nextInt(lore.size()));
+    }
+
+    @Override
+    public String saveToString() {
+        return String.format("%.0f", 100.0f * strength);
+    }
+
+    @Override
+    public void loadFromString(final String dataString) {
+        strength = 0.01f * Float.parseFloat(dataString);
+    }
 }

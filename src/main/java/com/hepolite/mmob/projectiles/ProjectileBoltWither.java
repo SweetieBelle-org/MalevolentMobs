@@ -16,52 +16,46 @@ import com.hepolite.mmob.utility.ParticleEffect.ParticleType;
 /**
  * The withering bolt will apply a withering effect to all targets it hits; the bolt won't be affected by gravity
  */
-public class ProjectileBoltWither extends ProjectileBolt
-{
-	private float range = 0.0f;
-	private boolean affectPlayersOnly = true;
+public class ProjectileBoltWither extends ProjectileBolt {
+    private float range = 0.0f;
+    private boolean affectPlayersOnly = true;
 
-	private PotionEffect effect = null;
+    private PotionEffect effect = null;
 
-	private int soundTimer = 0;
+    private int soundTimer = 0;
 
-	public ProjectileBoltWither(LivingEntity caster, LivingEntity target, float speed, int strength, int duration, float range, boolean affectPlayersOnly)
-	{
-		super(caster, target, speed, false, 0.0f);
+    public ProjectileBoltWither(final LivingEntity caster, final LivingEntity target, final float speed, final int strength, final int duration, final float range, final boolean affectPlayersOnly) {
+        super(caster, target, speed, false, 0.0f);
 
-		this.affectPlayersOnly = affectPlayersOnly;
-		this.range = range;
-		this.effect = new PotionEffect(PotionEffectType.WITHER, duration, strength - 1);
-	}
+        this.affectPlayersOnly = affectPlayersOnly;
+        this.range = range;
+        effect = new PotionEffect(PotionEffectType.WITHER, duration, strength - 1);
+    }
 
-	@Override
-	public void onTick()
-	{
-		super.onTick();
-		if (++soundTimer % 10 == 0)
-			position.getWorld().playSound(position, Sound.ENTITY_ENDERDRAGON_FLAP, 1.0f, 0.0f);
-	}
+    @Override
+    public void onTick() {
+        super.onTick();
+        if (++soundTimer % 10 == 0)
+            position.getWorld().playSound(position, Sound.ENTITY_ENDERDRAGON_FLAP, 1.0f, 0.0f);
+    }
 
-	@Override
-	protected void applyEffects(Location location)
-	{
-		location.getWorld().playSound(location, Sound.ENTITY_ENDERDRAGON_HURT, 1.0f, 0.0f);
+    @Override
+    protected void applyEffects(final Location location) {
+        location.getWorld().playSound(location, Sound.ENTITY_ENDERDRAGON_HURT, 1.0f, 0.0f);
 
-		// Apply wither to all entities within the range
-		List<LivingEntity> entities = Common.getEntitiesInRange(location, range);
-		for (LivingEntity entity : entities)
-		{
-			if (entity == caster)
-				continue;
+        // Apply wither to all entities within the range
+        final List<LivingEntity> entities = Common.getEntitiesInRange(location, range);
+        for (final LivingEntity entity : entities) {
+            if (entity == caster)
+                continue;
 
-			if (!affectPlayersOnly || entity instanceof Player)
-				entity.addPotionEffect(effect);
-		}
-	}
+            if (!affectPlayersOnly || entity instanceof Player)
+                entity.addPotionEffect(effect);
+        }
+    }
 
-	@Override
-	protected void displayBolt(Location location)
-	{
-		ParticleEffect.play(ParticleType.SMOKE_LARGE, location, 0.07f, 8, 0.333f);
-	}
+    @Override
+    protected void displayBolt(final Location location) {
+        ParticleEffect.play(ParticleType.SMOKE_LARGE, location, 0.07f, 8, 0.333f);
+    }
 }

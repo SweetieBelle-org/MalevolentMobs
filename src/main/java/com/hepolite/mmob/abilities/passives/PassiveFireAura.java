@@ -11,22 +11,18 @@ import com.hepolite.mmob.utility.ParticleEffect.ParticleType;
 /**
  * The fire aura will burn all entities within the range
  */
-public class PassiveFireAura extends PassiveAura
-{
-	public PassiveFireAura(MalevolentMob mob, float scale)
-	{
-		super(mob, "Fire Aura", scale);
-	}
+public class PassiveFireAura extends PassiveAura {
+    public PassiveFireAura(final MalevolentMob mob, final float scale) {
+        super(mob, "Fire Aura", scale);
+    }
 
-	@Override
-	protected void applyAuraEffect(LivingEntity entity)
-	{
-		entity.setFireTicks(50);
-	}
+    @Override
+    protected void applyAuraEffect(final LivingEntity entity) {
+        entity.setFireTicks(50);
+    }
 
-	@Override
-	protected void displayAura(Location location, float range)
-	{
-		ParticleEffect.play(ParticleType.FLAME, location, 0.05f, (int) (15.0f * range), 0.5f * range);
-	}
+    @Override
+    protected void displayAura(final Location location, final float range) {
+        ParticleEffect.play(ParticleType.FLAME, location, 0.05f, (int) (15.0f * range), 0.5f * range);
+    }
 }

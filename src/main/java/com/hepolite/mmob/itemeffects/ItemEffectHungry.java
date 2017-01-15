@@ -18,101 +18,89 @@ import com.hepolite.mmob.utility.Common;
 /**
  * Effect that eats food every now and then from the inventory
  */
-public class ItemEffectHungry extends ItemEffect
-{
-	private float chance = 0.0f;
+public class ItemEffectHungry extends ItemEffect {
+    private float chance = 0.0f;
 
-	private List<String> lore;
+    private List<String> lore;
 
-	public ItemEffectHungry()
-	{
-		super("Hungry");
-		incompatibleEffects = new String[] { getName() };
-	}
+    public ItemEffectHungry() {
+        super("Hungry");
+        incompatibleEffects = new String[] { getName() };
+    }
 
-	@Override
-	public void loadSettingsFromConfigFile(Settings settings)
-	{
-		lore = settings.getStringList("lore");
-	}
+    @Override
+    public void loadSettingsFromConfigFile(final Settings settings) {
+        lore = settings.getStringList("lore");
+    }
 
-	@Override
-	public boolean mustBeWorn()
-	{
-		return false;
-	}
+    @Override
+    public boolean mustBeWorn() {
+        return false;
+    }
 
-	@Override
-	public void onTick(Player player, ItemStack item)
-	{
-		if (random.nextFloat() >= chance)
-			return;
+    @Override
+    public void onTick(final Player player, final ItemStack item) {
+        if (random.nextFloat() >= chance)
+            return;
 
-		List<Integer> foodSlots = new ArrayList<Integer>();
-		List<Integer> miscSlots = new ArrayList<Integer>();
-		List<Integer> equipmentSlots = new ArrayList<Integer>();
+        final List<Integer> foodSlots = new ArrayList<Integer>();
+        final List<Integer> miscSlots = new ArrayList<Integer>();
+        final List<Integer> equipmentSlots = new ArrayList<Integer>();
 
-		PlayerInventory inventory = player.getInventory();
-		for (int i = 0; i < inventory.getSize(); i++)
-		{
-			ItemStack inventoryItem = inventory.getItem(i);
-			if (inventoryItem == null)
-				continue;
-			Material type = inventoryItem.getType();
-			if (type.isEdible())
-				foodSlots.add(i);
-			else if (type.getMaxDurability() != 0)
-				equipmentSlots.add(i);
-			else
-				miscSlots.add(i);
-		}
+        final PlayerInventory inventory = player.getInventory();
+        for (int i = 0; i < inventory.getSize(); i++) {
+            final ItemStack inventoryItem = inventory.getItem(i);
+            if (inventoryItem == null)
+                continue;
+            final Material type = inventoryItem.getType();
+            if (type.isEdible())
+                foodSlots.add(i);
+            else if (type.getMaxDurability() != 0)
+                equipmentSlots.add(i);
+            else
+                miscSlots.add(i);
+        }
 
-		List<Integer> list = foodSlots.size() != 0 ? foodSlots : (miscSlots.size() != 0 ? miscSlots : equipmentSlots);
-		if (list.size() != 0)
-		{
-			ItemMeta meta = item.getItemMeta();
-			String nameEater = meta.hasDisplayName() ? meta.getDisplayName() : Common.toTitleCase(item.getType().name().replaceAll("_", " "));
-			String nameVictim = consume(player, inventory, list.get(random.nextInt(list.size())));
-			player.sendMessage(ChatColor.WHITE + nameVictim + ChatColor.RESET + ChatColor.RED + " was consumed by " + ChatColor.WHITE + nameEater + ChatColor.RESET + ChatColor.RED + "!");
-		}
-	}
+        final List<Integer> list = foodSlots.size() != 0 ? foodSlots : miscSlots.size() != 0 ? miscSlots : equipmentSlots;
+        if (list.size() != 0) {
+            final ItemMeta meta = item.getItemMeta();
+            final String nameEater = meta.hasDisplayName() ? meta.getDisplayName() : Common.toTitleCase(item.getType().name().replaceAll("_", " "));
+            final String nameVictim = consume(player, inventory, list.get(random.nextInt(list.size())));
+            player.sendMessage(ChatColor.WHITE + nameVictim + ChatColor.RESET + ChatColor.RED + " was consumed by " + ChatColor.WHITE + nameEater + ChatColor.RESET + ChatColor.RED + "!");
+        }
+    }
 
-	@Override
-	public void addDescription(List<String> list)
-	{
-		list.add(String.format("&fHas a &c%.0f%%&f chance of eating food or other items", 100.0f * chance));
-		list.add("&ffrom the inventory every minute");
-		list.add("&f(This applies only if the item is in a player inventory)");
-	}
+    @Override
+    public void addDescription(final List<String> list) {
+        list.add(String.format("&fHas a &c%.0f%%&f chance of eating food or other items", 100.0f * chance));
+        list.add("&ffrom the inventory every minute");
+        list.add("&f(This applies only if the item is in a player inventory)");
+    }
 
-	@Override
-	public String getLore()
-	{
-		return lore.size() == 0 ? null : lore.get(random.nextInt(lore.size()));
-	}
+    @Override
+    public String getLore() {
+        return lore.size() == 0 ? null : lore.get(random.nextInt(lore.size()));
+    }
 
-	@Override
-	public String saveToString()
-	{
-		return String.format("%.0f", 100.0f * chance);
-	}
+    @Override
+    public String saveToString() {
+        return String.format("%.0f", 100.0f * chance);
+    }
 
-	@Override
-	public void loadFromString(String dataString)
-	{
-		chance = 0.01f * Float.parseFloat(dataString);
-	}
+    @Override
+    public void loadFromString(final String dataString) {
+        chance = 0.01f * Float.parseFloat(dataString);
+    }
 
-	/** Consumes the item at the given location in the given inventory; returns the name of the consumed item */
-	private final String consume(Player player, Inventory inventory, int slot)
-	{
-		ItemStack item = inventory.getItem(slot);
-		ItemMeta meta = item.getItemMeta();
-		String name = meta.hasDisplayName() ? meta.getDisplayName() : Common.toTitleCase(item.getType().name().replaceAll("_", " "));
-		int amount = item.getAmount() - 1;
-		item.setAmount(amount);
-		inventory.setItem(slot, (amount > 0 ? item : null));
-		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_GENERIC_EAT, 0.7f, 1.0f);
-		return name;
-	}
+    /** Consumes the item at the given location in the given inventory; returns the name of the consumed item */
+    private final String consume(final Player player, final Inventory inventory, final int slot) {
+        final ItemStack item = inventory.getItem(slot);
+        final ItemMeta meta = item.getItemMeta();
+        final String name = meta.hasDisplayName() ? meta.getDisplayName() : Common.toTitleCase(item.getType().name().replaceAll("_", " "));
+        final int amount = item.getAmount() - 1;
+        item.setAmount(amount);
+        inventory.setItem(slot, amount > 0 ? item : null);
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_GENERIC_EAT, 0.7f, 1.0f);
+        return name;
+    }
 }

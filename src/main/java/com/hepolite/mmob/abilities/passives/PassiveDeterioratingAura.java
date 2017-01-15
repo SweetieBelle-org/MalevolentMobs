@@ -19,61 +19,51 @@ import com.hepolite.mmob.utility.ParticleEffect.ParticleType;
 /**
  * The deteriorating aura will negate the regeneration effect for players, preventing them from recovering health by normal means. Potions of health will not be prevented by this passive
  */
-public class PassiveDeterioratingAura extends PassiveAura
-{
-	private HashMap<String, Double> playerHealthMap = new HashMap<String, Double>();
-	private HashSet<String> playersInRange = new HashSet<String>();
+public class PassiveDeterioratingAura extends PassiveAura {
+    private final HashMap<String, Double> playerHealthMap = new HashMap<String, Double>();
+    private final HashSet<String> playersInRange = new HashSet<String>();
 
-	public PassiveDeterioratingAura(MalevolentMob mob, float scale)
-	{
-		super(mob, "Deteriorating Aura", scale);
-		updateTime = 0;
-	}
+    public PassiveDeterioratingAura(final MalevolentMob mob, final float scale) {
+        super(mob, "Deteriorating Aura", scale);
+        updateTime = 0;
+    }
 
-	@Override
-	public void loadFromConfig(Settings settings, Settings alternative)
-	{
-		super.loadFromConfig(settings, alternative);
-		affectPlayersOnly = true;
-	}
+    @Override
+    public void loadFromConfig(final Settings settings, final Settings alternative) {
+        super.loadFromConfig(settings, alternative);
+        affectPlayersOnly = true;
+    }
 
-	@Override
-	public void onTick()
-	{
-		super.onTick();
+    @Override
+    public void onTick() {
+        super.onTick();
 
-		// Find all players not in the vicinity and remove them from the health map
-		for (Iterator<String> it = playerHealthMap.keySet().iterator(); it.hasNext();)
-		{
-			if (!playersInRange.contains(it.next()))
-				it.remove();
-		}
-		playersInRange.clear();
-	}
+        // Find all players not in the vicinity and remove them from the health map
+        for (final Iterator<String> it = playerHealthMap.keySet().iterator(); it.hasNext();)
+            if (!playersInRange.contains(it.next()))
+                it.remove();
+        playersInRange.clear();
+    }
 
-	@Override
-	protected void applyAuraEffect(LivingEntity entity)
-	{
-		// If the player was detected in the health map, figure out if the player gained health
-		String player = ((Player) entity).getName();
-		if (playerHealthMap.containsKey(player))
-		{
-			double oldHealth = playerHealthMap.get(player);
-			if (entity.getHealth() > oldHealth && entity.getHealth() <= oldHealth + 1.0)
-			{
-				// Take health from the player and heal self
-				double healedAmount = entity.getHealth() - oldHealth;
-				Common.doDamage(healedAmount, entity, mob.getEntity(), DamageCause.MAGIC);
-			}
-		}
+    @Override
+    protected void applyAuraEffect(final LivingEntity entity) {
+        // If the player was detected in the health map, figure out if the player gained health
+        final String player = ((Player) entity).getName();
+        if (playerHealthMap.containsKey(player)) {
+            final double oldHealth = playerHealthMap.get(player);
+            if (entity.getHealth() > oldHealth && entity.getHealth() <= oldHealth + 1.0) {
+                // Take health from the player and heal self
+                final double healedAmount = entity.getHealth() - oldHealth;
+                Common.doDamage(healedAmount, entity, mob.getEntity(), DamageCause.MAGIC);
+            }
+        }
 
-		playerHealthMap.put(player, entity.getHealth());
-		playersInRange.add(player);
-	}
+        playerHealthMap.put(player, entity.getHealth());
+        playersInRange.add(player);
+    }
 
-	@Override
-	protected void displayAura(Location location, float range)
-	{
-		ParticleEffect.play(ParticleType.REDSTONE, location, 0.0f, (int) (5.0f * range), 0.5f * range);
-	}
+    @Override
+    protected void displayAura(final Location location, final float range) {
+        ParticleEffect.play(ParticleType.REDSTONE, location, 0.0f, (int) (5.0f * range), 0.5f * range);
+    }
 }

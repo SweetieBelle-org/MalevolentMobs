@@ -16,57 +16,49 @@ import com.hepolite.mmob.utility.Common;
 /**
  * The rider will sit on the malevolent mob with this passive; any damage dealt to the mob is mitigated to the rider
  */
-public class PassiveMount extends Passive
-{
-	private Entity rider = null;
-	private String type = null;
-	private String role = "";
+public class PassiveMount extends Passive {
+    private Entity rider = null;
+    private String type = null;
+    private String role = "";
 
-	public PassiveMount(MalevolentMob mob, float scale)
-	{
-		super(mob, "Mount", Priority.LOW, scale);
-	}
+    public PassiveMount(final MalevolentMob mob, final float scale) {
+        super(mob, "Mount", Priority.LOW, scale);
+    }
 
-	@Override
-	public void loadFromConfig(Settings settings, Settings alternative)
-	{
-		type = settings.getString(alternative, "type");
-		role = settings.getString(alternative, "role");
-	}
+    @Override
+    public void loadFromConfig(final Settings settings, final Settings alternative) {
+        type = settings.getString(alternative, "type");
+        role = settings.getString(alternative, "role");
+    }
 
-	@Override
-	public void onSpawn()
-	{
-		// Spawn the rider
-		Location location = mob.getEntity().getLocation();
-		MMobListener.setSpawnDenyFlag(true);
-		rider = Common.spawnEntity(location, type);
-		MMobListener.setSpawnDenyFlag(false);
-		mob.getEntity().setPassenger(rider);
+    @Override
+    public void onSpawn() {
+        // Spawn the rider
+        final Location location = mob.getEntity().getLocation();
+        MMobListener.setSpawnDenyFlag(true);
+        rider = Common.spawnEntity(location, type);
+        MMobListener.setSpawnDenyFlag(false);
+        mob.getEntity().setPassenger(rider);
 
-		// If possible and relevant, make the mob malevolent
-		if (!role.equals("") && !role.equalsIgnoreCase("none") && rider instanceof LivingEntity)
-		{
-			MalevolentMob mob = MobHandler.makeMobMalevolent((LivingEntity) rider);
-			if (mob != null)
-				mob.setRole(role);
-		}
-	}
+        // If possible and relevant, make the mob malevolent
+        if (!role.equals("") && !role.equalsIgnoreCase("none") && rider instanceof LivingEntity) {
+            final MalevolentMob mob = MobHandler.makeMobMalevolent((LivingEntity) rider);
+            if (mob != null)
+                mob.setRole(role);
+        }
+    }
 
-	@Override
-	public void onAttacked(EntityDamageEvent event)
-	{
-		// Mitigate the damage to the rider if the rider is alive
-		if (rider != null && rider.isValid())
-		{
-			if (rider instanceof LivingEntity)
-				Common.doDamage(event.getDamage(), (LivingEntity) rider, mob.getEntity(), DamageCause.MAGIC);
-			else
-			{
-				mob.getEntity().eject();
-				rider = null;
-			}
-			event.setCancelled(true);
-		}
-	}
+    @Override
+    public void onAttacked(final EntityDamageEvent event) {
+        // Mitigate the damage to the rider if the rider is alive
+        if (rider != null && rider.isValid()) {
+            if (rider instanceof LivingEntity)
+                Common.doDamage(event.getDamage(), (LivingEntity) rider, mob.getEntity(), DamageCause.MAGIC);
+            else {
+                mob.getEntity().eject();
+                rider = null;
+            }
+            event.setCancelled(true);
+        }
+    }
 }

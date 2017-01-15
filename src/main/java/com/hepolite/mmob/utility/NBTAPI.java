@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import com.hepolite.mmob.Log;
+import com.hepolite.mmob.settings.Settings;
 
 @SuppressWarnings("rawtypes")
 public class NBTAPI {
@@ -65,6 +66,8 @@ public class NBTAPI {
 	private static Method NBTTagString_get;
 	private static Method NBTTagInt_get, NBTTagLong_get, NBTTagShort_get, NBTTagByte_get;
 	private static Method NBTTagFloat_get, NBTTagDouble_get;
+
+    private static Settings mappings;
 
 	/** Initialize the API */
 	@SuppressWarnings("unchecked")

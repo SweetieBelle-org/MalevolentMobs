@@ -1,0 +1,40 @@
+plugins {
+	id 'java'
+	id 'eclipse'
+}
+
+group = 'com.hepolite'
+version = '0.4.7'
+
+repositories {
+	jcenter()
+	maven {
+		name 'spigot'
+		url 'https://hub.spigotmc.org/nexus/content/groups/public/'
+	}
+	maven {
+		name 'pex-repo'
+		url 'http://pex-repo.aoeu.xyz'
+	}
+	maven {
+		name 'confuser-repo'
+		url 'http://ci.frostcast.net/plugin/repository/everything'
+	}
+}
+dependencies {
+	compile 'org.bukkit:bukkit:1.11-R0.1-SNAPSHOT'
+	compile 'ru.tehkode:PermissionsEx:1.23.1'
+	compile 'me.confuser:BarAPI:3.5'
+	compile fileTree(dir: 'libs', include: '*.jar')
+}
+
+processResources {
+	inputs.properties version: project.version
+	from (sourceSets.main.resources.srcDirs) {
+		include 'plugin.yml'
+		expand version:project.version
+	}
+	from (sourceSets.main.resources.srcDirs) {
+		exclude 'plugin.yml'
+	}
+}

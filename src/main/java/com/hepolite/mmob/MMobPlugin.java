@@ -52,12 +52,12 @@ public class MMobPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        instance = this;
+        settings = new MMobSettings();
         Log.initialize(this);
         NBTAPI.initialize();
         MMobCompatibility.initialize();
 
-        instance = this;
-        settings = new MMobSettings();
         listener = new MMobListener();
         commandHandler = new CommandHandler();
 

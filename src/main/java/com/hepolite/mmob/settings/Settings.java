@@ -41,7 +41,15 @@ public class Settings {
 
     /** Creates a new config file, or grabs an already existing one, with the given name */
     private FileConfiguration getConfig(final String folder, final String name) {
-        file = new File(MMobPlugin.getInstance().getDataFolder() + "/" + (folder != null ? folder : ""), name);
+        MMobPlugin pl = MMobPlugin.getInstance();
+        if(pl == null)
+            throw new NullPointerException("Plugin is null.");
+        File fileFolder = pl.getDataFolder();
+        if(fileFolder == null)
+            throw new NullPointerException("DataFolder is null.");
+        file = new File(fileFolder.getPath() + "/" + (folder != null ? folder : ""), name);
+        if(file == null)
+            throw new NullPointerException("File gotten is null.");
         if (!file.exists()) {
             wasCreated = true;
             Log.log("Didn't find file '" + name + "', creating it...");

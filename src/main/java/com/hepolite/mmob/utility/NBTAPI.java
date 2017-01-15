@@ -73,7 +73,7 @@ public class NBTAPI {
             mappings = new Settings("mappings.yml");
 
             // Grab various bits of data from the server
-            final String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+            final String version = Bukkit.getServer().getClass().getName().split("\\.")[3];
 
             // Grab classes
             classCraftItemStack = Class.forName("org.bukkit.craftbukkit." + version + ".inventory.CraftItemStack");
@@ -136,7 +136,7 @@ public class NBTAPI {
             // Finalize
             Log.log("No problems were detected in the NBT API!");
         } catch (final Exception e) {
-            Log.log("Failed to initialize the NBT Api! Is the plugin outdated?", Level.WARNING);
+            Log.log("Failed to initialize the NBT Api! Is the plugin outdated?", Level.WARNING, e);
             e.printStackTrace();
         }
     }
@@ -148,7 +148,7 @@ public class NBTAPI {
         try {
             return CraftItemStack_asCraftCopy.invoke(classCraftItemStack, new ItemStack(material, amount, damage));
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to create CraftItemStack", Level.WARNING);
+            Log.log("[NBTAPI] Failed to create CraftItemStack", Level.WARNING, e);
             e.printStackTrace();
         }
         return new ItemStack(material, amount, damage);
@@ -159,7 +159,7 @@ public class NBTAPI {
         try {
             return CraftItemStack_handle.get(itemStack);
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to obtain NMS ItemStack (Verify that your ItemStack is a CraftItemStack)", Level.WARNING);
+            Log.log("[NBTAPI] Failed to obtain NMS ItemStack (Verify that your ItemStack is a CraftItemStack)", Level.WARNING, e);
         }
         return null;
     }
@@ -170,7 +170,7 @@ public class NBTAPI {
         try {
             return tagClass.newInstance();
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to create NBTTag", Level.WARNING);
+            Log.log("[NBTAPI] Failed to create NBTTag", Level.WARNING,e);
         }
         return null;
     }
@@ -181,7 +181,7 @@ public class NBTAPI {
         try {
             return tagClass.getConstructor(value.getClass()).newInstance(value);
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to create NBTTag with value " + value, Level.WARNING);
+            Log.log("[NBTAPI] Failed to create NBTTag with value " + value, Level.WARNING,e);
         }
         return null;
     }
@@ -192,7 +192,7 @@ public class NBTAPI {
             final Object nmsItemStack = getNMSItemStack(itemStack);
             ItemStack_setTag.invoke(nmsItemStack, nbtTagCompound);
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to assign NBTTagCompound to NMS ItemStack", Level.WARNING);
+            Log.log("[NBTAPI] Failed to assign NBTTagCompound to NMS ItemStack", Level.WARNING,e);
         }
     }
 
@@ -201,7 +201,7 @@ public class NBTAPI {
         try {
             return ItemStack_getTag.invoke(getNMSItemStack(itemStack));
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to obtain NBTTagCompound", Level.WARNING);
+            Log.log("[NBTAPI] Failed to obtain NBTTagCompound", Level.WARNING,e);
         }
         return null;
     }
@@ -211,7 +211,7 @@ public class NBTAPI {
         try {
             return (boolean) ItemStack_hasTag.invoke(getNMSItemStack(itemStack));
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to check if NBTTagCompound is on NMS ItemStack", Level.WARNING);
+            Log.log("[NBTAPI] Failed to check if NBTTagCompound is on NMS ItemStack", Level.WARNING,e);
         }
         return false;
     }
@@ -221,7 +221,7 @@ public class NBTAPI {
         try {
             method.invoke(nbtTagCompound, key, value);
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to assign value to NBTTagCompound", Level.WARNING);
+            Log.log("[NBTAPI] Failed to assign value to NBTTagCompound", Level.WARNING,e);
         }
     }
 
@@ -230,7 +230,7 @@ public class NBTAPI {
         try {
             return method.invoke(nbtTagCompound, key);
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to obtain NBTTagCompound value", Level.WARNING);
+            Log.log("[NBTAPI] Failed to obtain NBTTagCompound value", Level.WARNING,e);
         }
         return null;
     }
@@ -240,7 +240,7 @@ public class NBTAPI {
         try {
             return (boolean) NBTTagCompound_hasKey.invoke(nbtTagCompound, key);
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to check if NBTTagCompound has key", Level.WARNING);
+            Log.log("[NBTAPI] Failed to check if NBTTagCompound has key", Level.WARNING,e);
         }
         return false;
     }
@@ -250,7 +250,7 @@ public class NBTAPI {
         try {
             NBTTagCompound_remove.invoke(nbtTagCompound, key);
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to remove NBTTagCompound key", Level.WARNING);
+            Log.log("[NBTAPI] Failed to remove NBTTagCompound key", Level.WARNING,e);
         }
     }
 
@@ -260,7 +260,7 @@ public class NBTAPI {
         try {
             return (Set<String>) NBTTagCompound_getKeys.invoke(nbtTagCompound);
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to obtain all NBTTagCompound keys", Level.WARNING);
+            Log.log("[NBTAPI] Failed to obtain all NBTTagCompound keys", Level.WARNING, e);
         }
         return null;
     }
@@ -274,7 +274,7 @@ public class NBTAPI {
             else
                 NBTTagList_add.invoke(nbtTagList, createNBTTag(tagClass, value));
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to add value to NBTTagList", Level.WARNING);
+            Log.log("[NBTAPI] Failed to add value to NBTTagList", Level.WARNING, e);
         }
     }
 
@@ -283,7 +283,7 @@ public class NBTAPI {
         try {
             return NBTTagList_remove.invoke(nbtTagList, index);
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to remove value from NBTTagList", Level.WARNING);
+            Log.log("[NBTAPI] Failed to remove value from NBTTagList", Level.WARNING, e);
         }
         return null;
     }
@@ -293,7 +293,7 @@ public class NBTAPI {
         try {
             return NBTTagList_get.invoke(nbtTagList, index);
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to obtain NBTTagList value", Level.WARNING);
+            Log.log("[NBTAPI] Failed to obtain NBTTagList value", Level.WARNING, e);
         }
         return null;
     }
@@ -303,7 +303,7 @@ public class NBTAPI {
         try {
             return (int) NBTTagList_size.invoke(nbtTagList);
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to obtain NBTTagList size", Level.WARNING);
+            Log.log("[NBTAPI] Failed to obtain NBTTagList size", Level.WARNING, e);
         }
         return 0;
     }
@@ -334,7 +334,7 @@ public class NBTAPI {
             else
                 Log.log("[NBTAPI] Failed to convert '" + nbtTag + "'!");
         } catch (final Exception e) {
-            Log.log("[NBTAPI] Failed to convert NMS class", Level.WARNING);
+            Log.log("[NBTAPI] Failed to convert NMS class", Level.WARNING, e);
         }
         return null;
     }

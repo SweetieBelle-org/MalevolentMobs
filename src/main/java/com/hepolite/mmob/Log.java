@@ -25,4 +25,9 @@ public class Log {
         if (Log.logger != null)
             Log.logger.log(level, message);
     }
+
+    public static void log(String string, Level warning, Throwable ex) {
+        if (Log.logger != null)
+            Log.logger.log(warning, string, ex);
+    }
 }

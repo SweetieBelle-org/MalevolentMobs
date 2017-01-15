@@ -192,7 +192,7 @@ public class MalevolentMob {
                 damageMap.remove(uuid);
         }
 
-        // Locate new targets if applicable¨
+        // Locate new targets if applicable
         if (--targetUpdateTimer < 0) {
             targetUpdateTimer = 20;
 

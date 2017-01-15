@@ -2,6 +2,7 @@ package com.hepolite.mmob.intructions;
 
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.hepolite.mmob.MMobPlugin;
@@ -31,9 +32,9 @@ public class InstructionReloadConfig extends Instruction {
 
     @Override
     protected boolean onInvoke(final CommandSender sender, final List<String> arguments) {
-        sender.sendMessage("§fReloading the configuration file...");
+        sender.sendMessage(ChatColor.WHITE + "Reloading the configuration file...");
         MMobPlugin.getSettings().reload();
-        sender.sendMessage("§fDone reloading the configuration file!");
+        sender.sendMessage(ChatColor.WHITE + "Done reloading the configuration file!");
         return false;
     }
 }

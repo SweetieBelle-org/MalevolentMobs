@@ -2,6 +2,7 @@ package com.hepolite.mmob.intructions;
 
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -31,7 +32,7 @@ public class InstructionRepair extends Instruction {
     protected boolean onInvoke(final CommandSender sender, final List<String> arguments) {
         // Only players can use this instruction, and at least one argument must be provided
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§cThis command can only be used by a player");
+            sender.sendMessage(ChatColor.RED + "This command can only be used by a player");
             return true;
         }
 
@@ -39,7 +40,7 @@ public class InstructionRepair extends Instruction {
         final Player player = (Player) sender;
         final ItemStack itemInHand = player.getEquipment().getItemInMainHand();
         if (itemInHand == null || itemInHand.getType() == Material.AIR) {
-            sender.sendMessage("§cYou must hold an item in your hand");
+            sender.sendMessage(ChatColor.RED + "You must hold an item in your hand");
             return true;
         }
 
@@ -49,7 +50,7 @@ public class InstructionRepair extends Instruction {
             player.getEquipment().setItemInMainHand(itemInHand);
             sender.sendMessage("Repaired the item that was held! Enjoy!");
         } else
-            sender.sendMessage("§cYour item can't be repaired!");
+            sender.sendMessage(ChatColor.RED + "Your item can't be repaired!");
         return false;
     }
 }

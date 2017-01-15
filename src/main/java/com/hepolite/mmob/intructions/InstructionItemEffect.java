@@ -2,6 +2,7 @@ package com.hepolite.mmob.intructions;
 
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -39,11 +40,11 @@ public class InstructionItemEffect extends Instruction {
     protected boolean onInvoke(final CommandSender sender, final List<String> arguments) {
         // Only players can use this instruction, and at least one argument must be provided
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§cThis command can only be used by a player");
+            sender.sendMessage(ChatColor.RED + "This command can only be used by a player");
             return true;
         }
         if (arguments.size() == 0) {
-            sender.sendMessage("§cAt least one argument must be provided");
+            sender.sendMessage(ChatColor.RED + "At least one argument must be provided");
             return true;
         }
 
@@ -51,25 +52,25 @@ public class InstructionItemEffect extends Instruction {
         final Player player = (Player) sender;
         final ItemStack itemInHand = player.getEquipment().getItemInMainHand();
         if (itemInHand == null || itemInHand.getType() == Material.AIR) {
-            sender.sendMessage("§cYou must hold an item in your hand");
+            sender.sendMessage(ChatColor.RED + "You must hold an item in your hand");
             return true;
         }
 
         // Grab the item effect from the item effect manager
         final ItemEffect effect = ItemEffectHandler.getItemEffect(arguments.get(0));
         if (effect == null) {
-            sender.sendMessage("§cInvalid item effect '" + arguments.get(0) + "'");
+            sender.sendMessage(ChatColor.RED + "Invalid item effect '" + arguments.get(0) + "'");
             return true;
         }
 
         // Effect must exist and must be enabled
         final Settings settings = SettingsItemEffects.getConfig(effect.getName());
         if (settings == null) {
-            sender.sendMessage("§cThe item effect '" + effect.getName() + "' doesn't exist");
+            sender.sendMessage(ChatColor.RED + "The item effect '" + effect.getName() + "' doesn't exist");
             return true;
         }
         if (!settings.getBoolean("enable")) {
-            sender.sendMessage("§cThe item effect '" + effect.getName() + "' is not enabled");
+            sender.sendMessage(ChatColor.RED + "The item effect '" + effect.getName() + "' is not enabled");
             return true;
         }
 
@@ -83,16 +84,16 @@ public class InstructionItemEffect extends Instruction {
         try {
             effect.loadFromString(dataString);
         } catch (final Exception exception) {
-            sender.sendMessage("§cInvalid item effect data string '" + dataString + "' for item effect '" + effect.getName() + "'");
+            sender.sendMessage(ChatColor.RED + "Invalid item effect data string '" + dataString + "' for item effect '" + effect.getName() + "'");
             return true;
         }
 
         if (ItemEffectHandler.addItemEffect(itemInHand, effect)) {
-            sender.sendMessage("§fAdded item effect '" + effect.getName() + "' with parameters '" + dataString + "' to item '" + itemInHand.getType() + "'");
+            sender.sendMessage(ChatColor.WHITE + "Added item effect '" + effect.getName() + "' with parameters '" + dataString + "' to item '" + itemInHand.getType() + "'");
             if (!effect.canBeUsedOnItem(itemInHand))
-                sender.sendMessage("§cNote: The item effect '" + effect.getName() + "' can't normally be added to '" + itemInHand.getType().toString().toLowerCase() + "'! It might behave in unexpected ways.");
+                sender.sendMessage(ChatColor.RED + "Note: The item effect '" + effect.getName() + "' can't normally be added to '" + itemInHand.getType().toString().toLowerCase() + "'! It might behave in unexpected ways.");
         } else
-            sender.sendMessage("§cCouldn't add item effect '" + effect.getName() + "' with parameters '" + dataString + "' to item '" + itemInHand.getType() + "'");
+            sender.sendMessage(ChatColor.RED + "Couldn't add item effect '" + effect.getName() + "' with parameters '" + dataString + "' to item '" + itemInHand.getType() + "'");
         return false;
     }
 }

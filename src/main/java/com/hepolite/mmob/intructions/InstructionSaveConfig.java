@@ -2,6 +2,7 @@ package com.hepolite.mmob.intructions;
 
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.hepolite.mmob.MMobPlugin;
@@ -31,9 +32,9 @@ public class InstructionSaveConfig extends Instruction {
 
     @Override
     protected boolean onInvoke(final CommandSender sender, final List<String> arguments) {
-        sender.sendMessage("§fSaving the configuration file...");
+        sender.sendMessage(ChatColor.WHITE + "Saving the configuration file...");
         MMobPlugin.getSettings().save();
-        sender.sendMessage("§fDone saving the configuration file!");
+        sender.sendMessage(ChatColor.WHITE + "Done saving the configuration file!");
         return false;
     }
 }

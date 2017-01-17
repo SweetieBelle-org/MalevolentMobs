@@ -65,7 +65,7 @@ public class ItemEffectThaumicBolt extends ItemEffectWand {
         super.addDescription(list);
         list.add("&fLeft-click to launch a thaumic bolt that");
         list.add(String.format("&fdoes &b%.1f&f hearts of damage to one target", 0.5f * damage));
-        list.add("&fDamage increases the futher the bolt travels");
+        list.add("&fDamage increases the further the bolt travels");
     }
 
     @Override

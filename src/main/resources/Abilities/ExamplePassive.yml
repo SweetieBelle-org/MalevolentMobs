@@ -1,0 +1,20 @@
+type: passive
+action:
+  UniqueNameHere=TYPE: {}
+condition:
+  UniqueNameHere=TYPE: {}
+#target:
+#  UniqueNameHere=TYPE: {}
+trigger:
+  UniqueNameHere=TICK:
+    frequency: 1
+    target: caster
+    mechanic: |-
+      ActionNameA
+      if (ConditionNameA && (ConditionNameB || ConditionNameC))
+        ActionNameB ActionNameC
+        if (ConditionNameD)
+          ActionNameD
+        end
+      end
+      ActionNameE

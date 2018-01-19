@@ -1,84 +1,79 @@
 package com.hepolite.mmob.abilities;
 
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityRegainHealthEvent;
-import org.bukkit.event.entity.ExplosionPrimeEvent;
+import org.bukkit.entity.LivingEntity;
 
-import com.hepolite.mmob.mobs.MalevolentMob;
-import com.hepolite.mmob.settings.Settings;
+import com.hepolite.coreutility.log.Log;
+import com.hepolite.mmob.abilities.targets.Target;
+import com.hepolite.mmob.abilities.targets.TargetCaster;
+import com.hepolite.mmob.abilities.targets.TargetNull;
+import com.hepolite.mmob.abilities.triggers.Trigger;
+import com.hepolite.mmob.abilities.triggers.TriggerTick;
+import com.hepolite.mmob.abilities.triggers.TriggerType;
 
-public abstract class Ability {
-    /** The priority of the ability; low priority is applied BEFORE damage reduction due to armor, high priority is applied after normal priority, which is applied AFTER damage reduction */
-    public enum Priority {
-        LOW, NORMAL, HIGH;
-    }
+public class Ability
+{
+	private final AbilityType type;
+	private final Map<String, Target> targets = new HashMap<String, Target>();
+	private final Map<String, Trigger> triggers = new HashMap<String, Trigger>();
 
-    protected static Random random = new Random();
+	public Ability(AbilityType type)
+	{
+		this.type = type;
 
-    // Control variables
-    protected MalevolentMob mob = null;
+		addTarget(new TargetNull());
+		addTarget(new TargetCaster());
+	}
 
-    private String name = "unnamed ability";
-    protected float scale = 0.0f;
-    private Priority priority = Priority.NORMAL;
+	/** Invoked every tick */
+	public final void onTick(LivingEntity caster, int tick)
+	{
+		for (Trigger trigger : triggers.values())
+		{
+			if (trigger.getType() == TriggerType.TICK && tick % ((TriggerTick) trigger).getFrequency() == 0)
+				trigger.onTriggered(caster);
+		}
+	}
 
-    /* Initialization */
-    protected Ability(final MalevolentMob mob, final String name, final Priority priority, final float scale) {
-        this.mob = mob;
-        this.name = name;
-        this.scale = scale;
-        this.priority = priority;
-    }
+	/** Returns the type of the ability */
+	public final AbilityType getType()
+	{
+		return type;
+	}
 
-    /** Loads up the passive from the given configuration path */
-    public abstract void loadFromConfig(Settings settings, Settings alternative);
+	/** Adds the target to the ability */
+	public final void addTarget(Target target)
+	{
+		if (target == null)
+			return;
+		Target old = targets.put(target.getName(), target);
+		if (old != null)
+			Log.warning("The target " + target.getName() + " existed and was overwritten");
+	}
 
-    // ////////////////////////////////////////////////////////////////////////////////////
+	/** Return the target with the given name; returns null if it does not exist */
+	public final Target getTarget(String name)
+	{
+		return targets.get(name);
+	}
 
-    /** Called when the mob just spawned */
-    public void onSpawn() {
-    }
+	/** Adds the trigger to the ability */
+	public final void addTrigger(Trigger trigger)
+	{
+		if (trigger == null)
+			return;
+		if (trigger.getTarget() == null)
+			trigger.setTarget(getTarget("null"));
+		Trigger old = triggers.put(trigger.getName(), trigger);
+		if (old != null)
+			Log.warning("The trigger " + trigger.getName() + " existed and was overwritten");
+	}
 
-    /** Called when the mob just died */
-    public void onDie() {
-    }
-
-    /** Called every tick for as long as the mob is alive */
-    public void onTick() {
-    }
-
-    /** Called when the mob just attacked */
-    public void onAttack() {
-    }
-
-    /** Called when the mob was just attacked */
-    public void onAttacked(final EntityDamageEvent event) {
-    }
-
-    /** Called when the mob just dealt some damage */
-    public void onAttacking(final EntityDamageByEntityEvent event) {
-    }
-
-    /** Called when the mob just gained some health */
-    public void onHealed(final EntityRegainHealthEvent event) {
-    }
-
-    /** Called when a creeper is about to explode, or when a wither skull and ghast fireball hits something */
-    public void onExplode(final ExplosionPrimeEvent event) {
-    }
-
-    // ///////////////////////////////////////////////////////////////////////////////////
-
-    /** Returns the name of the ability */
-    public String getName() {
-        return name;
-    }
-
-    /** Returns the priority of the ability */
-    public Priority getPriority() {
-        return priority;
-    }
+	/** Return the trigger with the given name; returns null if it does not exist */
+	public final Trigger getTriggers(String name)
+	{
+		return triggers.get(name);
+	}
 }

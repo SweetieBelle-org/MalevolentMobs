@@ -40,14 +40,14 @@ method:
   NBTTagList:
     add: add
     remove: remove
-    get: h
+    get: i
     size: size
   NBTTagString:
     get: c_
   NBTTagInt:
     get: e
   NBTTagLong:
-    get: d
+    get: i
   NBTTagShort:
     get: f
   NBTTagByte:

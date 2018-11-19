@@ -1,12 +1,17 @@
 #eclipse shit
+.metadata/
 .classpath
 .project
 .settings/
 bin/
 
 #gradle shit
+gradle.properties
 .gradle/
+gradle/
 build/
+gradlew
+gradlew.bat
 
 #Forge shit
 *.launch

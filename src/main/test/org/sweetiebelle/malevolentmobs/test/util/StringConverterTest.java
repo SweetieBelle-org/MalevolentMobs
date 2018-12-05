@@ -4,18 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
+import org.sweetiebelle.malevolentmobs.test.MockEnum;
 import org.sweetiebelle.malevolentmobs.test.TestBase;
 import org.sweetiebelle.malevolentmobs.util.StringConverter;
 
 class StringConverterTest extends TestBase
 {
-    enum MockEnum
-    {
-        FOO, BAR
-    }
-
-    // ...
-
     @Test
     void testToBool()
     {

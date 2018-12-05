@@ -12,7 +12,7 @@ public class MalevolentMobs
 {
     public static final String MODID = "malevolentmobs";
     public static final String NAME = "Malevolent Mobs";
-    public static final String VERSION = "1";
+    public static final String VERSION = "0.0.1";
 
     private static Logger logger;
 
@@ -25,7 +25,5 @@ public class MalevolentMobs
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-        // some example code
-
     }
 }

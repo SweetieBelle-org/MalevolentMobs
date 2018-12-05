@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "malevolentmobs",
+  "name": "Malevolent Mobs",
+  "description": "Provides strong mobs that will tear players to pieces!",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Them Modding Bois"],
+  "credits": "A couple of weirdos",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
